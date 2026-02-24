@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immigration | The Mango Republic</title>
+    
+    <!-- Modern Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Markdown & Security -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #FFB300; /* Mango Gold */
+            --primary-dark: #FF8F00;
+            --secondary: #00695C; /* Tropical Deep Teal */
+            --bg-color: #F8FAFC; 
+            --card-bg: #ffffff;
+            --text-main: #1E293B;
+            --text-light: #64748B;
+            --success: #10B981;
+            --danger: #EF4444;
+        }
+
+        /* BASE STYLES */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.7; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; color: var(--secondary); }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* HEADER */
+        header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); padding: 10px 0; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.1rem; color: var(--secondary); font-family: 'Poppins', sans-serif; }
+        .logo img { height: 50px; border-radius: 8px; }
+        nav ul { display: flex; gap: 20px; list-style: none; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.9rem; transition: color 0.3s; }
+        nav a:hover { color: var(--primary-dark); }
+        .nav-btn { background: var(--secondary); color: white !important; padding: 8px 20px; border-radius: 50px; }
+
+        /* HERO */
+        .hero { height: 100vh; background: linear-gradient(rgba(0, 50, 40, 0.6), rgba(0, 50, 40, 0.5)), url('https://www.islands.com/img/gallery/central-americas-tropical-paradise-country-boasts-one-of-the-lowest-costs-of-living-in-the-world/intro-1732316245.jpg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; color: white; text-shadow: 0 4px 10px rgba(0,0,0,0.5); animation: fadeUp 1s ease-out; }
+        .hero p { font-size: 1.25rem; max-width: 700px; margin-bottom: 40px; animation: fadeUp 1s ease-out 0.3s backwards; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .hero-btn { background: var(--primary); color: var(--text-main); padding: 15px 40px; border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.3s; animation: fadeUp 1s ease-out 0.6s backwards; border: none; cursor: pointer; }
+        .hero-btn:hover { transform: translateY(-3px); background: white; }
+
+        /* SECTIONS */
+        section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.2rem; margin-bottom: 15px; position: relative; display: inline-block; }
+        .section-header h2::after { content: ''; display: block; width: 60px; height: 4px; background: var(--primary); margin: 10px auto 0; border-radius: 2px; }
+
+        /* INFO GRID */
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+        .info-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 5px solid var(--primary); }
+        .chud-list li { list-style: none; padding: 10px 0; padding-left: 30px; position: relative; border-bottom: 1px solid #eee; }
+        .chud-list li::before { content: '✓'; color: var(--primary); font-weight: bold; position: absolute; left: 0; }
+
+        /* LEGAL FRAMEWORK */
+        .framework-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .legal-card { background: white; padding: 25px; border-radius: 12px; border: 1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: transform 0.3s; }
+        .legal-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .legal-icon { width: 35px; height: 35px; margin-bottom: 15px; color: var(--secondary); }
+        .legal-card h4 { margin-bottom: 10px; color: var(--text-main); }
+        .legal-card p { font-size: 0.9rem; color: var(--text-light); }
+
+        /* PARALLAX BREAK */
+        .parallax-break { background: url('https://www.liveandinvestoverseas.com/wp-content/uploads/2019/07/paradise-beach.webp'); height: 300px; background-attachment: fixed; background-position: center; background-size: cover; margin: 50px 0; position: relative; }
+        .parallax-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
+        .parallax-text { color: white; font-size: 2rem; font-family: 'Poppins', sans-serif; font-weight: 700; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+        /* POINTS SYSTEM */
+        .points-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .point-item { background: white; padding: 25px; border-radius: 15px; border: 1px solid #eee; transition: all 0.3s; }
+        .point-item:hover { border-color: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .point-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .badge { background: var(--secondary); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+        .bar-container { width: 100%; height: 6px; background: #e0e0e0; border-radius: 3px; margin-bottom: 15px; }
+        .bar-fill { height: 100%; background: var(--primary); border-radius: 3px; }
+        .criteria-list { font-size: 0.9rem; color: var(--text-light); list-style: none; margin-top: 10px; }
+        .criteria-list li { display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding: 5px 0; }
+
+        /* QUIZ */
+        .quiz-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-top: 5px solid var(--primary); margin-top: 40px; }
+        .quiz-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
+        .form-group select { width: 100%; padding: 12px; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 1rem; color: var(--text-main); outline: none; transition: border 0.3s; }
+        .form-group select:focus { border-color: var(--primary); }
+        .quiz-result { margin-top: 30px; padding: 20px; border-radius: 10px; text-align: center; display: none; }
+        .quiz-result.pass { background: #D1FAE5; color: #065F46; border: 1px solid #34D399; }
+        .quiz-result.fail { background: #FEE2E2; color: #991B1B; border: 1px solid #F87171; }
+
+        /* STREAMS */
+        .category-wrapper { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+        .cat-box { background: white; width: 260px; padding: 30px 20px; text-align: center; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: all 0.3s ease; }
+        .cat-box:hover { transform: translateY(-10px); }
+        .cat-icon { font-size: 3rem; margin-bottom: 20px; background: #FFF8E1; width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin: 0 auto 20px auto; color: var(--primary-dark); }
+
+        /* FACTORS & ALERTS */
+        .factors-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .factor { background: white; padding: 25px; border-radius: 15px; display: flex; gap: 20px; align-items: flex-start; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+        .factor-icon { font-size: 1.5rem; color: var(--secondary); background: #E0F2F1; padding: 12px; border-radius: 10px; }
+        .policy-box { margin-top: 30px; padding: 30px; border-radius: 15px; display: flex; gap: 20px; align-items: center; }
+        .refusal { background: #FFF5F5; border-left: 5px solid var(--danger); color: #C53030; }
+        .ethics { background: #F0FFF4; border-left: 5px solid var(--success); color: #2F855A; }
+
+        /* FAQ */
+        .faq-card { background: white; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow: hidden; }
+        .faq-q { padding: 20px; background: white; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { padding: 0 20px 20px 20px; color: var(--text-light); border-top: 1px solid #f0f0f0; }
+
+        /* FOOTER */
+        footer { background: #1A202C; color: white; text-align: center; padding: 60px 20px; margin-top: 80px; }
+        footer img { border-radius: 8px; margin-bottom: 20px; }
+
+        /* CHATBOT */
+        .chat-fab { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: var(--text-main); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; z-index: 2000; transition: transform 0.3s; }
+        .chat-fab:hover { transform: scale(1.1); }
+        .chat-window { position: fixed; bottom: 100px; right: 30px; width: 380px; height: 550px; background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); display: flex; flex-direction: column; z-index: 2000; opacity: 0; pointer-events: none; transform: translateY(20px); transition: all 0.3s ease; }
+        .chat-window.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+        .chat-header { background: var(--secondary); color: white; padding: 15px 20px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; }
+        .chat-body { flex: 1; padding: 20px; overflow-y: auto; background: #F1F5F9; display: flex; flex-direction: column; gap: 15px; }
+        .message { padding: 10px 15px; border-radius: 10px; font-size: 0.9rem; max-width: 85%; }
+        .msg-user { background: var(--secondary); color: white; align-self: flex-end; }
+        .msg-bot { background: white; border: 1px solid #E2E8F0; align-self: flex-start; }
+        .chat-input-area { padding: 15px; border-top: 1px solid #E2E8F0; display: flex; gap: 10px; }
+        .chat-input { flex: 1; padding: 10px; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; }
+        .send-btn { background: var(--secondary); color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; }
+
+        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .chat-window { width: 95%; right: 2.5%; } .factors-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="https://iili.io/qKuH8jR.md.png" alt="Mango Republic Flag">
+                The Mango Republic
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#legal">Legal</a></li>
+                    <li><a href="#points">Points</a></li>
+                    <li><a href="#" onclick="toggleChat()" class="nav-btn">Mr. Mango</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Welcome to Paradise</h1>
+        <p>A progressive, democratic micronation building a sustainable future. <br>Join us under the C.H.U.D. Act.</p>
+        <a href="#quiz" class="hero-btn">Check Your Eligibility</a>
+    </div>
+
+    <!-- About & CHUD Act -->
+    <section id="about" class="reveal">
+        <div class="section-header">
+            <h2>The C.H.U.D. Act</h2>
+            <p>Citizenship, Humanitarian & Unified Development</p>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>🌎 About The Mango Republic</h3>
+                <p>We are a progressive, democratic micronation committed to sustainability, innovation, and social equality. We believe immigration strengthens economic growth, cultural diversity, and global cooperation.</p>
+                <br>
+                <p>Our government is liberal-democratic, prioritizing inclusion, fairness, and evidence-based policy.</p>
+            </div>
+            
+            <div class="info-card" style="border-top-color: var(--secondary);">
+                <h3>📜 Act Objectives</h3>
+                <ul class="chud-list">
+                    <li>Promote economic development through skilled immigration.</li>
+                    <li>Protect refugees fleeing persecution.</li>
+                    <li>Reunite families.</li>
+                    <li>Maintain strict public health and safety.</li>
+                    <li>Ensure fair, transparent, and ethical immigration decisions.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legal Framework Section (Replaces Canada Comparison with Mango Architecture) -->
+    <section id="legal" class="reveal">
+        <div class="section-header">
+            <h2>Our Legal Framework</h2>
+            <p>How the C.H.U.D. Act structures our immigration system.</p>
+        </div>
+
+        <div class="framework-grid">
+            <div class="legal-card">
+                <svg class="legal-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                <h4>Domestic Foundation</h4>
+                <p>A sovereign domestic statute. Value-driven and self-contained, prioritizing streamlined processing over bureaucracy.</p>
+            </div>
+            <div class="legal-card">
+                <svg class="legal-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <h4>Refugee Definition</h4>
+                <p>Based on "credible fear" of persecution. We prioritize humanitarian urgency and allow flexibility in documentation.</p>
+            </div>
+            <div class="legal-card">
+                <svg class="legal-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <h4>Non-Refoulement</h4>
+                <p>Absolute protection. No one is returned to face torture or death. This overrides deportation except in extreme security cases.</p>
+            </div>
+            <div class="legal-card">
+                <svg class="legal-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <h4>Screening</h4>
+                <p>Includes international criminal checks, anti-extremism verification, and health screening (only excludes unmanageable risks).</p>
+            </div>
+            <div class="legal-card">
+                <svg class="legal-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+                <h4>Decision Body</h4>
+                <p>Administrative Refugee Officers make decisions for speed. An independent appeals board ensures transparency.</p>
+            </div>
+            <div class="legal-card">
+                <svg class="legal-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <h4>Integration Rights</h4>
+                <p>Immediate work rights, language training, and community mentorship upon approval.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Image Break -->
+    <div class="parallax-break">
+        <div class="parallax-overlay">
+            <span class="parallax-text">"Unity in Diversity, Progress in Mangoes"</span>
+        </div>
+    </div>
+
+    <!-- Points System Details (Original Info Restored) -->
+    <section id="points" style="background: white;">
+        <div class="reveal">
+            <div class="section-header">
+                <h2>The Mango Points System</h2>
+                <p>Economic Class Selection Criteria</p>
+            </div>
+
+            <div class="points-grid">
+                <div class="point-item">
+                    <div class="point-header"><h4>Education</h4><span class="badge">Max 25</span></div>
+                    <div class="bar-container"><div class="bar-fill" style="width: 25%;"></div></div>
+                    <ul class="criteria-list">
+                        <li><span>Doctorate</span> <strong>25</strong></li>
+                        <li><span>Master’s</span> <strong>22</strong></li>
+                        <li><span>Bachelor’s</span> <strong>18</strong></li>
+                        <li><span>Trade Cert</span> <strong>15</strong></li>
+                        <li><span>High School</span> <strong>8</strong></li>
+                    </ul>
+                </div>
+
+                <div class="point-item">
+                    <div class="point-header"><h4>Experience</h4><span class="badge">Max 20</span></div>
+                    <div class="bar-container"><div class="bar-fill" style="width: 20%;"></div></div>
+                    <ul class="criteria-list">
+                        <li><span>5+ Years</span> <strong>20</strong></li>
+                        <li><span>3–4 Years</span> <strong>15</strong></li>
+                        <li><span>1–2 Years</span> <strong>10</strong></li>
+                        <li><span>< 1 Year</span> <strong>5</strong></li>
+                    </ul>
+                </div>
+
+                <div class="point-item">
+                    <div class="point-header"><h4>Language</h4><span class="badge">Max 20</span></div>
+                    <div class="bar-container"><div class="bar-fill" style="width: 20%;"></div></div>
+                    <ul class="criteria-list">
+                        <li><span>Fluent</span> <strong>20</strong></li>
+                        <li><span>Moderate</span> <strong>12</strong></li>
+                        <li><span>Basic</span> <strong>5</strong></li>
+                    </ul>
+                </div>
+
+                <div class="point-item">
+                    <div class="point-header"><h4>Age</h4><span class="badge">Max 10</span></div>
+                    <div class="bar-container"><div class="bar-fill" style="width: 10%;"></div></div>
+                    <ul class="criteria-list">
+                        <li><span>22–35 Years</span> <strong>10</strong></li>
+                        <li><span>36–45 Years</span> <strong>7</strong></li>
+                        <li><span>46–55 Years</span> <strong>4</strong></li>
+                        <li><span>Other</span> <strong>2</strong></li>
+                    </ul>
+                </div>
+
+                <div class="point-item">
+                    <div class="point-header"><h4>Job Offer</h4><span class="badge">Max 15</span></div>
+                    <div class="bar-container"><div class="bar-fill" style="width: 15%;"></div></div>
+                    <ul class="criteria-list">
+                        <li><span>Confirmed Offer</span> <strong>15</strong></li>
+                        <li><span>In-Demand Skill</span> <strong>10</strong></li>
+                        <li><span>General Labor</span> <strong>5</strong></li>
+                    </ul>
+                </div>
+
+                <div class="point-item">
+                    <div class="point-header"><h4>Adaptability</h4><span class="badge">Max 10</span></div>
+                    <div class="bar-container"><div class="bar-fill" style="width: 10%;"></div></div>
+                    <ul class="criteria-list">
+                        <li><span>Work in Mango</span> <strong>5</strong></li>
+                        <li><span>Family in Mango</span> <strong>5</strong></li>
+                        <li><span>Volunteering</span> <strong>5</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- QUIZ SECTION INSIDE POINTS -->
+            <section id="quiz" class="reveal">
+                <div class="section-header" style="margin-top: 50px;">
+                    <h2>Immigration Assessment Quiz</h2>
+                    <p>Calculate your points automatically. Pass Mark: <strong>70</strong></p>
+                </div>
+                <div class="quiz-container">
+                    <div class="quiz-form">
+                        <div class="form-group"><label>Education</label><select id="q_edu"><option value="0">Select...</option><option value="25">Doctorate (25)</option><option value="22">Master's (22)</option><option value="18">Bachelor's (18)</option><option value="15">Trade Cert (15)</option><option value="8">High School (8)</option></select></div>
+                        <div class="form-group"><label>Experience</label><select id="q_exp"><option value="0">Select...</option><option value="20">5+ Years (20)</option><option value="15">3-4 Years (15)</option><option value="10">1-2 Years (10)</option><option value="5"><1 Year (5)</option></select></div>
+                        <div class="form-group"><label>Language</label><select id="q_lang"><option value="0">Select...</option><option value="20">Fluent (20)</option><option value="12">Moderate (12)</option><option value="5">Basic (5)</option></select></div>
+                        <div class="form-group"><label>Age</label><select id="q_age"><option value="0">Select...</option><option value="10">22-35 (10)</option><option value="7">36-45 (7)</option><option value="4">46-55 (4)</option><option value="2">Other (2)</option></select></div>
+                        <div class="form-group"><label>Job Offer</label><select id="q_job"><option value="0">Select...</option><option value="15">Confirmed (15)</option><option value="10">In-Demand (10)</option><option value="5">General (5)</option><option value="0">None</option></select></div>
+                        <div class="form-group"><label>Adaptability</label><select id="q_adapt"><option value="0">Select...</option><option value="10">Full (10)</option><option value="5">Partial (5)</option><option value="0">None</option></select></div>
+                    </div>
+                    <div style="text-align: center; margin-top: 30px;"><button onclick="calculatePoints()" class="hero-btn">Check Eligibility</button></div>
+                    <div id="quizResult" class="quiz-result"></div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- Streams & Factors -->
+    <section class="reveal">
+        <div class="section-header"><h2>Immigration Streams</h2></div>
+        <div class="category-wrapper">
+            <div class="cat-box"><div class="cat-icon">💼</div><h4>Economic Class</h4><p style="font-size: 0.9rem; color: #666;">Skilled workers selected via the Points System.</p></div>
+            <div class="cat-box"><div class="cat-icon">🚀</div><h4>Entrepreneurs</h4><p style="font-size: 0.9rem; color: #666;">Must create 3+ local jobs & align with green goals.</p></div>
+            <div class="cat-box"><div class="cat-icon">👨‍👩‍👧‍👦</div><h4>Family Unity</h4><p style="font-size: 0.9rem; color: #666;">Sponsorship for genuine relationships.</p></div>
+            <div class="cat-box"><div class="cat-icon">🕊️</div><h4>Refugees</h4><p style="font-size: 0.9rem; color: #666;">Protection for those fleeing persecution.</p></div>
+        </div>
+
+        <div class="section-header" style="margin-top: 80px;"><h2>Decision Making</h2></div>
+        <div class="factors-layout">
+            <div class="factor"><div class="factor-icon">📈</div><div><h4>Economic Factors</h4><p>Contribution to labor market, innovation, and reducing skill shortages.</p></div></div>
+            <div class="factor"><div class="factor-icon">🏛</div><div><h4>Political Factors</h4><p>Respect for democratic values and constitutional rights.</p></div></div>
+            <div class="factor"><div class="factor-icon">🏥</div><div><h4>Health Factors</h4><p>Screening for contagious diseases to protect public health.</p></div></div>
+            <div class="factor"><div class="factor-icon">🛡️</div><div><h4>Security Factors</h4><p>Criminal checks and protection against organized crime.</p></div></div>
+        </div>
+
+        <div class="policy-box refusal"><div style="font-size: 2rem;">❌</div><div><h4>Grounds for Refusal</h4><p>Fraud/False documents, Serious criminal history, Active security threats, or Unmanageable public health risks.</p></div></div>
+        <div class="policy-box ethics"><div style="font-size: 2rem;">🌱</div><div><h4>Ethical Considerations</h4><p>We balance compassion with security. We acknowledge that points systems can be strict, which is why humanitarian streams exist to ensure fairness.</p></div></div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="reveal">
+        <div class="section-header"><h2>Policy Defense (FAQ)</h2></div>
+        <div class="faq-card"><div class="faq-q">Why use a points system?</div><div class="faq-a">It creates objective, measurable standards that reduce bias and prioritize national needs.</div></div>
+        <div class="faq-card"><div class="faq-q">How do you balance compassion and security?</div><div class="faq-a">Separate economic and refugee streams ensure humanitarian protection without compromising public safety.</div></div>
+        <div class="faq-card"><div class="faq-q">Why include health screening?</div><div class="faq-a">To protect public health while still allowing treatment plans when possible.</div></div>
+        <div class="faq-card"><div class="faq-q">How does this reflect liberal values?</div><div class="faq-a">It promotes diversity, equality, human rights, and evidence-based decision-making.</div></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <img src="https://iili.io/qKuH8jR.md.png" height="60" alt="Flag">
+        <h3>The Mango Republic</h3>
+        <p>Ministry of Citizenship & Immigration</p>
+        <br>
+        <p style="font-size: 0.8rem; opacity: 0.7;">&copy; 2025 The Mango Republic. "Unity in Diversity, Progress in Mangoes"</p>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-fab" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span>Mr. Mango</span>
+            <span style="cursor:pointer;" onclick="toggleChat()">✕</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="message msg-bot">
+                <strong>Hello!</strong><br>I am Mr. Mango, the Chief Immigration Officer. Ask me about the C.H.U.D. Act or take the quiz!
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="userInput" class="chat-input" placeholder="Type a message..." onkeypress="handleEnter(event)">
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Reveal Animation
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 150) {
+                    el.classList.add('active');
+                }
+            });
+        });
+
+        // Quiz Logic
+        async function calculatePoints() {
+            const data = {
+                education: document.getElementById('q_edu').value,
+                experience: document.getElementById('q_exp').value,
+                language: document.getElementById('q_lang').value,
+                age: document.getElementById('q_age').value,
+                job: document.getElementById('q_job').value,
+                adaptability: document.getElementById('q_adapt').value
+            };
+
+            try {
+                const response = await fetch('/assess', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                
+                const resultDiv = document.getElementById('quizResult');
+                resultDiv.style.display = 'block';
+                resultDiv.className = `quiz-result ${result.passed ? 'pass' : 'fail'}`;
+                resultDiv.innerHTML = `<h3>Score: ${result.score} / 100</h3><p>${result.message}</p>`;
+            } catch (error) {
+                alert("Error connecting to server.");
+            }
+        }
+
+        // Chat Logic
+        const chatWindow = document.getElementById('chatWindow');
+        const chatBody = document.getElementById('chatBody');
+        const userInput = document.getElementById('userInput');
+
+        function toggleChat() { chatWindow.classList.toggle('open'); }
+        function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if(!text) return;
+            
+            addMessage(text, 'user');
+            userInput.value = '';
+            
+            try {
+                const res = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: text})
+                });
+                const data = await res.json();
+                addMessage(data.response, 'bot');
+            } catch(e) {
+                addMessage("System Error: Mr. Mango is offline.", 'bot');
+            }
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `message msg-${sender}`;
+            if(sender === 'bot') div.innerHTML = DOMPurify.sanitize(marked.parse(text));
+            else div.textContent = text;
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    </script>
+</body>
+</html>
